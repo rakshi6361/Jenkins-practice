@@ -19,11 +19,14 @@ pipeline {
             }
         }
 
-        stage('Deploy to Dev') {
-            steps {
-                sh './hello.sh'
-            }
-        }
+         stage('Deploy to Dev') {
+             steps {
+               sh '''
+               chmod +x hello.sh
+                ./hello.sh
+               '''
+    }
+}
 
         stage('Approval') {
             steps {
