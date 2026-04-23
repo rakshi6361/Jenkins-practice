@@ -1,42 +1,17 @@
 pipeline {
     agent any
 
-    environment {
-        APP_ENV = "dev"
-    }
-
     stages {
 
-        stage('Build') {
+        stage('Build Docker Image') {
             steps {
-                echo "Building application..."
+                sh 'docker build -t myapp:v1 .'
             }
         }
 
-        stage('Test') {
+        stage('Run Container') {
             steps {
-                echo "Running tests..."
-            }
-        }
-
-         stage('Deploy to Dev') {
-             steps {
-               sh '''
-               chmod +x hello.sh
-                ./hello.sh
-               '''
-    }
-}
-
-        stage('Approval') {
-            steps {
-                input "Approve deployment to production?"
-            }
-        }
-
-        stage('Deploy to Prod') {
-            steps {
-                echo "Deploying to production..."
+                sh 'docker run --rm myapp:v1'
             }
         }
     }
